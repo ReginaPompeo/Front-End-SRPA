@@ -58,7 +58,6 @@ const Button = styled.button`
   width: 15rem;
   height: 3rem;
   text-align: center;
-  line-height: 3rem;
   text-decoration: none;
   transition: background-color 0.3s;
   &:hover {

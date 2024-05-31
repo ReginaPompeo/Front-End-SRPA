@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 
 const CasosFinalizados = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 3;
-  
+  const itemsPerPage = 10;
+  const navigate = useNavigate();
+
   const data = [
     { nome: "Nome Exemplo", cpf: "CPF Exemplo", data: "Data Exemplo" },
     { nome: "Nome Exemplo 2", cpf: "CPF Exemplo 2", data: "Data Exemplo 2" },
@@ -23,6 +25,10 @@ const CasosFinalizados = () => {
     setCurrentPage(selected);
   };
 
+  const handleRowClick = (item) => {
+    navigate(`/detalhes/${item.nome}`, { state: { contact: item } });
+  };
+
   return (
     <StyledContainer id="powerbi">
       <StyledText>
@@ -36,7 +42,7 @@ const CasosFinalizados = () => {
       </StyledTextTitle>
       <StyledFields>
         {currentData.map((item, index) => (
-          <FieldsRow key={index}>
+          <FieldsRow key={index} onClick={() => handleRowClick(item)}>
             <FieldsName>
               <p>{item.nome}</p>
             </FieldsName>
@@ -113,8 +119,9 @@ const FieldsRow = styled.div`
   justify-content: space-between;
   text-align: left;
   border: 1px solid #000000; /* Adiciona uma borda preta ao redor de cada linha */
-  padding: 10px; /* Adiciona um pouco de espaçamento interno */
+  padding: 5px; /* Adiciona um pouco de espaçamento interno */
   border-radius: 5px; /* Adiciona cantos arredondados */
+  cursor: pointer; /* Adiciona o cursor pointer ao passar sobre a linha */
 `;
 
 const FieldsName = styled.div`
@@ -133,7 +140,7 @@ const FieldsData = styled.div`
 `;
 
 const StyledContainer = styled(Container)`
-  padding: 2rem;
+  padding: 1rem;
   height: 100vh;
 `;
 
@@ -148,7 +155,7 @@ const StyledTextTitle = styled(Text)`
   margin-bottom: 1rem;
   h3 {
     flex: 1;
-    text-align: center; /* Centraliza o texto nos títulos */
+    padding-left: 0.5rem;
     font-size: 1.4rem;
     font-family: "Lora", serif;
     font-optical-sizing: auto;
@@ -173,22 +180,22 @@ const PaginationContainer = styled.div`
     margin: 0 5px;
   }
   .pagination li a {
-    border: 1px solid #ccc;
+    border: none;
     padding: 5px 10px;
     text-decoration: none;
-    color: #007bff;
+    color: #001753;
     cursor: pointer;
   }
   .pagination li.active a {
-    background-color: #007bff;
+    background-color: #A36201;
     color: white;
-    border: 1px solid #007bff;
+    border: none;
   }
   .pagination li.disabled a {
-    color: #ccc;
+    color: #001753;
     cursor: not-allowed;
   }
   .pagination li a:hover {
-    background-color: #eee;
+    background-color: #A36201;
   }
 `;

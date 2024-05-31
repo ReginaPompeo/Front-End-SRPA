@@ -7,6 +7,7 @@ import Footer from "./components/Footer/Footer";
 import Bancos from "./components/Bancos/Bancos";
 import PowerBI from "./components/PowerBI/PowerBI";
 import CasosFinalizados from './components/CasosFinalizados/CasosFinalizados';
+import DetalhesContato from './components/CasosFinalizados/DetalhesContato';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/bancos" element={<Bancos/>} />
         <Route path="/powerbi" element={<PowerBI/>} />
         <Route path="/casosfinalizados" element={<CasosFinalizados/>} />
+        <Route path="/detalhes/:nome" component={DetalhesContato} />
         </Routes>
         <Footer/>
       </Container>
