@@ -20,8 +20,8 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/bancos" element={<Bancos/>} />
         <Route path="/powerbi" element={<PowerBI/>} />
-        <Route path="/casosfinalizados" element={<CasosFinalizados/>} />
-        <Route path="/detalhes/:nome" component={DetalhesContato} />
+        <Route path="/casosfinalizados" element={<CasosFinalizados />} />
+        <Route path="/detalhes/:nome" element={<DetalhesContato />} />
         </Routes>
         <Footer/>
       </Container>

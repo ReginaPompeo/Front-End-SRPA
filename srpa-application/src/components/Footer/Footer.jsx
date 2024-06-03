@@ -8,11 +8,9 @@ const Footer = () => {
   return (
     <Container id="footer">
       <Centralizar>
-        <Slide direction="down">
           <RouterLink to="/">
             <Img src={Logo} alt="Logo Pegoraro Amorim" />
           </RouterLink>
-        </Slide>
       </Centralizar>
       <Texts>
         <Pages>
@@ -43,6 +41,7 @@ const Container = styled.div`
   align-items: center;
   max-width: 1280px;
   width: 80%;
+  height: 100vh;
   padding: 3rem 0 1rem 0;
   position: relative;
   margin: 0 auto;
@@ -100,4 +99,5 @@ const Copy = styled.div`
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
+  padding-top: 12rem;
 `;

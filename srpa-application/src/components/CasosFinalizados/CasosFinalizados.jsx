@@ -9,12 +9,33 @@ const CasosFinalizados = () => {
   const navigate = useNavigate();
 
   const data = [
-    { nome: "Nome Exemplo", cpf: "CPF Exemplo", data: "Data Exemplo" },
-    { nome: "Nome Exemplo 2", cpf: "CPF Exemplo 2", data: "Data Exemplo 2" },
+    { nome: "Regina Pompeo Batista Alves da Silva Pereira Célia Santiago Carvalho", cpf: "CPF Exemplo", data: "Data Exemplo" },
+    { nome: "Fabio Urbina", cpf: "CPF Exemplo 2", data: "Data Exemplo 2" },
     { nome: "Nome Exemplo 3", cpf: "CPF Exemplo 3", data: "Data Exemplo 3" },
     { nome: "Nome Exemplo 4", cpf: "CPF Exemplo 4", data: "Data Exemplo 4" },
     { nome: "Nome Exemplo 5", cpf: "CPF Exemplo 5", data: "Data Exemplo 5" },
     { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+    { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
+
   ];
 
   const pageCount = Math.ceil(data.length / itemsPerPage);
@@ -26,11 +47,11 @@ const CasosFinalizados = () => {
   };
 
   const handleRowClick = (item) => {
-    navigate(`/detalhes/${item.nome}`, { state: { contact: item } });
+    navigate(`/detalhes/${encodeURIComponent(item.nome)}`, { state: { contact: item } });
   };
 
   return (
-    <StyledContainer id="powerbi">
+    <StyledContainer id="casosFinalizados">
       <StyledText>
         <h2>Casos Finalizados</h2>
         <h4>Casos finalizados disponíveis para a verificação.</h4>
@@ -43,15 +64,9 @@ const CasosFinalizados = () => {
       <StyledFields>
         {currentData.map((item, index) => (
           <FieldsRow key={index} onClick={() => handleRowClick(item)}>
-            <FieldsName>
-              <p>{item.nome}</p>
-            </FieldsName>
-            <FieldsCPF>
-              <p>{item.cpf}</p>
-            </FieldsCPF>
-            <FieldsData>
-              <p>{item.data}</p>
-            </FieldsData>
+            <FieldsName>{item.nome}</FieldsName>
+            <FieldsCPF>{item.cpf}</FieldsCPF>
+            <FieldsData>{item.data}</FieldsData>
           </FieldsRow>
         ))}
       </StyledFields>
@@ -78,8 +93,9 @@ export default CasosFinalizados;
 
 const Container = styled.div`
   display: flex;
+  height: 100vh;
   flex-direction: column;
-  padding-top: 3rem;
+  padding-top: 5rem;
   width: 80%;
   max-width: 1280px;
   margin: 0 auto;
@@ -118,10 +134,10 @@ const FieldsRow = styled.div`
   display: flex;
   justify-content: space-between;
   text-align: left;
-  border: 1px solid #000000; /* Adiciona uma borda preta ao redor de cada linha */
-  padding: 5px; /* Adiciona um pouco de espaçamento interno */
-  border-radius: 5px; /* Adiciona cantos arredondados */
-  cursor: pointer; /* Adiciona o cursor pointer ao passar sobre a linha */
+  border: 1px solid #000000;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 const FieldsName = styled.div`
@@ -140,7 +156,7 @@ const FieldsData = styled.div`
 `;
 
 const StyledContainer = styled(Container)`
-  padding: 1rem;
+  padding: 28rem 0;
   height: 100vh;
 `;
 

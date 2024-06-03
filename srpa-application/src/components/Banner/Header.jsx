@@ -72,14 +72,14 @@ const Container = styled.div`
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: ${(props) => (props.bar ? "transparent" : "#fff")};
+        background-color: ${(props) => (props.bar ? "transparent" : "#081E57")};
         transition: all 400ms ease-in-out;
         :before,
         :after {
           content: "";
           width: 100%;
           height: 2px;
-          background-color: #fff;
+          background-color: #081E57;
           position: absolute;
         }
 
@@ -108,7 +108,7 @@ const Nav = styled.div`
     position: fixed;
     display: flex;
     flex-direction: column;
-    background-color: #081E57;
+    background-color: #081e57;
     inset: 0;
     justify-content: center;
     align-items: center;
@@ -122,30 +122,32 @@ const Nav = styled.div`
   }
   span {
     margin-left: 1rem;
+    font-size: 1.2rem;
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    letter-spacing: 1px;
     a {
-      color: #081E57;
+      color: #081e57; /* Cor do texto */
       text-decoration: none;
-      font-weight: 400;
       position: relative;
-      :before {
+      font-weight: 400;
+      &:before {
         content: "";
         position: absolute;
-        left: 0;
-        right: 0;
         bottom: -5px;
-        height: 2px;
-        background-color: #081E57;
-        transform: scale(0);
-        transform-origin: right;
-        transition: transform 400ms ease-in-out;
+        left: 0;
+        width: 100%;
+        height: 2px; /* Altura do sublinhado */
+        background-color: #081e57; /* Cor do sublinhado */
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.3s ease-in-out;
       }
-      :hover:before {
-        transform: scale(1);
-        transform-origin: left;
-      }
-      :hover {
-        opacity: 0.7;
+      &:hover:before {
+        visibility: visible;
+        transform: scaleX(1);
       }
     }
   }
-`
+`;

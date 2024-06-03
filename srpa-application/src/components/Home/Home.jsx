@@ -5,13 +5,13 @@ import { Slide } from "react-awesome-reveal";
 const Home = () => {
     return (
         <Container id="home">
-            <Slide direction="down">
+            <Slide direction="right">
                 <Text>
                     <h2>Sejam bem-vindos ao novo sistema S.R.P.A - EOJ</h2>
                     <h4>Sistema de Repasses Pegoraro Amorim - EOJ</h4>
                 </Text>
             </Slide>
-            <Slide direction="up">
+            <Slide direction="left">
                     <Img src="https://www.pegoraroamorim.com.br/wp-content/uploads/2022/03/banner_pegoraro_01-1-1024x357.png" alt="Banner Home Pegoraro"/>
 
             </Slide>
