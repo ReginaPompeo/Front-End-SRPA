@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 const CasosFinalizados = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
   const data = [
     { nome: "Regina Pompeo Batista Alves da Silva Pereira Célia Santiago Carvalho", cpf: "CPF Exemplo", data: "Data Exemplo" },
-    { nome: "Fabio Urbina", cpf: "CPF Exemplo 2", data: "Data Exemplo 2" },
+     { nome: "Fabio Urbina", cpf: "CPF Exemplo 2", data: "Data Exemplo 2" },
     { nome: "Nome Exemplo 3", cpf: "CPF Exemplo 3", data: "Data Exemplo 3" },
     { nome: "Nome Exemplo 4", cpf: "CPF Exemplo 4", data: "Data Exemplo 4" },
     { nome: "Nome Exemplo 5", cpf: "CPF Exemplo 5", data: "Data Exemplo 5" },
@@ -35,12 +36,18 @@ const CasosFinalizados = () => {
     { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
     { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
     { nome: "Nome Exemplo 6", cpf: "CPF Exemplo 6", data: "Data Exemplo 6" },
-
   ];
 
-  const pageCount = Math.ceil(data.length / itemsPerPage);
+  const filteredData = data.filter(
+    (item) =>
+      item.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.cpf.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.data.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const pageCount = Math.ceil(filteredData.length / itemsPerPage);
   const offset = currentPage * itemsPerPage;
-  const currentData = data.slice(offset, offset + itemsPerPage);
+  const currentData = filteredData.slice(offset, offset + itemsPerPage);
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -50,17 +57,31 @@ const CasosFinalizados = () => {
     navigate(`/detalhes/${encodeURIComponent(item.nome)}`, { state: { contact: item } });
   };
 
+  const handleSearch = () => {
+    setCurrentPage(0);
+  };
+
   return (
     <StyledContainer id="casosFinalizados">
+      <SearchContainer>
       <StyledText>
         <h2>Casos Finalizados</h2>
         <h4>Casos finalizados disponíveis para a verificação.</h4>
       </StyledText>
-      <StyledTextTitle>
-        <h3>Nome</h3>
-        <h3>CPF</h3>
-        <h3>Data</h3>
-      </StyledTextTitle>
+      <SearchGroup>
+          <SearchInput
+            type="text"
+            placeholder="Pesquisar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </SearchGroup>
+      </SearchContainer>
+        <StyledTextTitle>
+          <h3>Nome</h3>
+          <h3>CPF</h3>
+          <h3>Data</h3>
+        </StyledTextTitle>
       <StyledFields>
         {currentData.map((item, index) => (
           <FieldsRow key={index} onClick={() => handleRowClick(item)}>
@@ -93,14 +114,12 @@ export default CasosFinalizados;
 
 const Container = styled.div`
   display: flex;
-  height: 100vh;
   flex-direction: column;
-  padding-top: 5rem;
   width: 80%;
   max-width: 1280px;
   margin: 0 auto;
-  padding-bottom: 5rem;
-  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 10rem;
 `;
 
 const Text = styled.div`
@@ -156,8 +175,6 @@ const FieldsData = styled.div`
 `;
 
 const StyledContainer = styled(Container)`
-  padding: 28rem 0;
-  height: 100vh;
 `;
 
 const StyledText = styled(Text)`
@@ -215,3 +232,32 @@ const PaginationContainer = styled.div`
     background-color: #A36201;
   }
 `;
+
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const SearchGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SearchInput = styled.input`
+  flex: 1;
+  width: 15rem;
+  max-width: 400px;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border: 1px solid #001753;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #000000;
+  background: transparent;
+  ::placeholder {
+    color: #000000;
+  }
+`;
+

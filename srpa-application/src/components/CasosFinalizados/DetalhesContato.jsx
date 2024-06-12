@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BackIcon from '../../assets/BackIcon.png';
+import PDFIcon from '../../assets/baixar-pdf.png';
 
 const DetalhesContato = () => {
   const location = useLocation();
@@ -13,16 +14,40 @@ const DetalhesContato = () => {
       <StyledContainer>
         <h2>Detalhes do Contato</h2>
         <Details>
-          <div><strong>Nome:</strong> {contact.nome}</div>
+          <div><strong>ID Usuário</strong> {contact.id_usuario}</div>
+          <div><strong>Usuário:</strong> {contact.usuario}</div>
+          <div><strong>ID Banco:</strong> {contact.id_banco}</div>
+          <div><strong>Banco:</strong> {contact.banco}</div>
+          <div><strong>ID Parceiro:</strong> {contact.id_parceiro}</div>
+          <div><strong>Parceiro:</strong> {contact.parceiro}</div>
+          <div><strong>ID Habilitação</strong> {contact.id_hab}</div>
+          <div><strong>Observação:</strong> {contact.observacao}</div>
+          <div><strong>PJ:</strong> {contact.pj}</div>
+          <div><strong>Autor</strong> {contact.autor}</div>
+          <div><strong>ID Situação:</strong> {contact.id_situacao}</div>
+          <div><strong>Situação</strong> {contact.situacao}</div>
           <div><strong>CPF:</strong> {contact.cpf}</div>
-          <div><strong>Data:</strong> {contact.data}</div>
-          <div><strong>Email:</strong> {contact.email}</div>
-          <div><strong>Telefone:</strong> {contact.telefone}</div>
-          <div><strong>Endereço:</strong> {contact.endereco}</div>
+          <div><strong>CNJ:</strong> {contact.cnj}</div>
+          <div><strong>Habilitação Herdeiro:</strong> {contact.hab_herdeiro}</div>
+          <div><strong>Agência</strong> {contact.agencia}</div>
+          <div><strong>Conta:</strong> {contact.conta}</div>
+          <div><strong>Valor:</strong> {contact.val}</div>
+          <div><strong>ID Tipo de conta:</strong> {contact.id_tipo_conta}</div>
+          <div><strong>Tipo de conta:</strong> {contact.tipo_conta}</div>
+          <div><strong>Valor Atualizado:</strong> {contact.val_atualizado}</div>
+          <div><strong>Valor índice:</strong> {contact.val_indice}</div>
+          <div><strong>Honorários Contratuais:</strong> {contact.honor_cont}</div>
+          <div><strong>Data de Entrada:</strong> {contact.dat_entr}</div>
+          <div><strong>Horário</strong> {contact.hor}</div>
+          <div><strong>Data PASA:</strong> {contact.dat_pasa}</div>
+          <div><strong>Monetaria:</strong> {contact.monetaria}</div>
         </Details>
         <ButtonContainer>
           <button onClick={() => navigate('/casosfinalizados')}>
             <img src={BackIcon} alt="Botão para voltar a página anterior" />
+          </button>
+          <button>
+            <img src={PDFIcon} alt="Baixar PDF" />
           </button>
         </ButtonContainer>
       </StyledContainer>
@@ -35,13 +60,13 @@ export default DetalhesContato;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 5rem;
   width: 80%;
-  height: 100vh;
   max-width: 1280px;
   margin: 0 auto;
-  padding-bottom: 5rem;
-  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 20rem;
+  
+  
 `;
 
 const StyledContainer = styled.div`
@@ -86,17 +111,18 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 0.5rem;
+  gap: 1rem;
 
   button {
     align-items: right;
-    padding: 0.4rem 0.4rem;
+    padding: 0.2rem 0.2rem;
     background-color: #081E57;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 4rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 2.5rem;
     transition: background-color 0.3s;
     &:hover {
       background-color: #A36201;

@@ -3,13 +3,22 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const PowerBI = () => {
+  const embedUrl = 'https://app.powerbi.com/view?r=eyJrIjoiYjg3YWZhZTgtOTNhMS00ZDlhLWJkNWYtNzFhN2ZjOGE1YjM3IiwidCI6IjMyNTM2Y2E0LTFjNjctNDgzYS04NTUwLTQ1NTk1NzgzOGQxMSJ9';
     return (
         <StyledContainer id="powerbi">
         <StyledText>
           <h2>Power BI</h2>
           <h4>Power BI disponibilizado para visualização.</h4>
         </StyledText>
-        <StyledButton as={Link} to="https://mail.google.com/mail/u/0/#inbox">Ir para Power BI</StyledButton>
+        <PowerBoard>
+          <iframe
+                width="100%"
+                height="600px"
+                src={embedUrl}
+                allowFullScreen
+            />
+        </PowerBoard>
+        <StyledButton as={Link} to="https://app.powerbi.com/view?r=eyJrIjoiYjg3YWZhZTgtOTNhMS00ZDlhLWJkNWYtNzFhN2ZjOGE1YjM3IiwidCI6IjMyNTM2Y2E0LTFjNjctNDgzYS04NTUwLTQ1NTk1NzgzOGQxMSJ9">Ir para Power BI</StyledButton>
       </StyledContainer>
     );
   };
@@ -48,6 +57,12 @@ const Text = styled.div`
     color: #001753;
   }
 `;
+
+const PowerBoard = styled.div`
+  justify-content: center;
+  align-items: center;
+`
+
 const Button = styled.button`
   padding: 0.6rem 1rem;
   background-color: #081E57;

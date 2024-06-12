@@ -1,14 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const InserirBancos = () => {
+  // Estado local para armazenar os valores dos campos
+  const [codigoBanco, setCodigoBanco] = useState("");
+  const [nomeBanco, setNomeBanco] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
+  // Função para lidar com o envio do formulário
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setResponseMessage("");
+
+    fetch("http://localhost:8080/banco/criar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ codigoBanco, nomeBanco }),
+    })
+      .then((response) => {
+        setIsSubmitting(false);
+        if (!response.ok) {
+          throw new Error("Erro ao enviar dados para o servidor");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setResponseMessage("Dados enviados com sucesso!");
+        console.log("Resposta do servidor:", data);
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
+        setResponseMessage("Erro ao enviar dados para o servidor.");
+        console.error("Erro:", error);
+      });
+  };
   return (
     <StyledContainer id="bancos">
       <StyledText>
         <h2>Inserir Bancos</h2>
         <h4>Caso haja a necessidade, insira um banco nos campos abaixo.</h4>
       </StyledText>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <InputsContainer>
           <FormGroup>
             <StyledLabel htmlFor="inputCodBanco">Código do Banco</StyledLabel>
@@ -16,6 +52,9 @@ const InserirBancos = () => {
               type="text"
               id="inputCodBanco"
               placeholder="Código do banco"
+              value={codigoBanco}
+              onChange={(e) => setCodigoBanco(e.target.value)}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -24,15 +63,21 @@ const InserirBancos = () => {
               type="text"
               id="inputNomeBanco"
               placeholder="Nome do banco"
+              value={nomeBanco}
+              onChange={(e) => setNomeBanco(e.target.value)}
+              required
             />
           </FormGroup>
         </InputsContainer>
-        <StyledButton type="submit">Enviar</StyledButton>
+        <StyledButton type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Enviando..." : "Enviar"}
+        </StyledButton>
+        {responseMessage && <ResponseMessage>{responseMessage}</ResponseMessage>}
       </Form>
     </StyledContainer>
   );
+  
 };
-
 export default InserirBancos;
 
 const Container = styled.div`
@@ -137,3 +182,5 @@ const StyledButton = styled(Button)`
   letter-spacing: 1px;
   color: #F5F5F5;
 `;   
+const ResponseMessage = styled.p`
+  margin-top: 1rem`;

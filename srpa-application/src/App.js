@@ -8,6 +8,8 @@ import Bancos from "./components/Bancos/Bancos";
 import PowerBI from "./components/PowerBI/PowerBI";
 import CasosFinalizados from './components/CasosFinalizados/CasosFinalizados';
 import DetalhesContato from './components/CasosFinalizados/DetalhesContato';
+import CadastroPessoa from './components/CadastroPessoa/CadastroPessoa';
+
 
 function App() {
   return (
@@ -17,11 +19,12 @@ function App() {
           <Header/>
         </Banner>
         <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/bancos" element={<Bancos/>} />
-        <Route path="/powerbi" element={<PowerBI/>} />
-        <Route path="/casosfinalizados" element={<CasosFinalizados />} />
-        <Route path="/detalhes/:nome" element={<DetalhesContato />} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/bancos" element={<Bancos/>} />
+          <Route path="/powerbi" element={<PowerBI/>} />
+          <Route path="/casosfinalizados" element={<CasosFinalizados />} />
+          <Route path="/detalhes/:nome" element={<DetalhesContato />} />
+          <Route path="/cadastropessoa" element={<CadastroPessoa />} />
         </Routes>
         <Footer/>
       </Container>
@@ -32,11 +35,12 @@ function App() {
 export default App;
 
 const Container = styled.div`
-background: linear-gradient(to top, #002D41, #E5DBCD);
+  background: linear-gradient(to top, #002D41, #E5DBCD);
   
   @media (max-width: 640px) {
     height: 100%;
     padding-bottom: 2rem;
-  }`;
+  }
+`;
 const Banner = styled.div`
 `;

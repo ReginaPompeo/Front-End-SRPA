@@ -27,7 +27,7 @@ const Header = () => {
                     <NavLink to="/casosfinalizados">Casos Finalizados</NavLink>
                 </span>
                 <span>
-                    <NavLink to="/bancos">Bancos</NavLink>
+                    <NavLink to="/cadastropessoa">Cadastro Pessoas</NavLink>
                 </span>
                 <span>
                     <NavLink to="/bancos">Bancos</NavLink>
