@@ -42,7 +42,7 @@ const InserirPoupador = () => {
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
   const [valorHerdeiro, setValorHerdeiro] = useState('');
   const [porcentagem, setPorcentagem] = useState('');
-
+  const [showNewFieldsType, setShowNewFieldsType] = useState('');
 
   const handleChange = (e) => {
     setConta(e.target.value);
@@ -144,6 +144,7 @@ useEffect(() => {
       <StyledText>
         <h2>Cadastro de Pessoas</h2>
       </StyledText>
+      <Page>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
             <StyledLabel htmlFor="inputShort">PJ</StyledLabel>
@@ -304,6 +305,7 @@ useEffect(() => {
       {/* Campos adicionais que aparecem quando "Falecido" é selecionado */}
       {showAdditionalFields && (
         <AdditionalFields>
+          <FormAdditional>
           <FormGroup>
             <StyledLabel htmlFor="nomeHerdeiro">Nome do Herdeiro</StyledLabel>
             <Input
@@ -395,6 +397,12 @@ useEffect(() => {
             ))}
             </Select>
           </FormGroup>
+          </FormAdditional>
+          <FormButton>
+          <Form onSubmit={handleSubmit}>
+            <StyledButton type="submit">Enviar</StyledButton>
+          </Form>
+          </FormButton>
         </AdditionalFields>
       )}
           <FormGroupLong>
@@ -609,8 +617,8 @@ useEffect(() => {
                 </div>
               </StyledRadio>
           </FormGroup>
-
       </Form>
+      </Page>
       <Form onSubmit={handleSubmit}>
         <StyledButton type="submit">Enviar</StyledButton>
       </Form>
@@ -652,11 +660,14 @@ const Text = styled.div`
   }
 `;
 
+const Page = styled.div`
+  margin-bottom: 2rem; 
+`;
+
 const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  align-items: center; /* Alinha os itens verticalmente no meio */
 `;
 
 
@@ -732,6 +743,7 @@ const Button = styled.button`
 
 
 const StyledContainer = styled(Container)`
+display: flex;
 `;
 
 const StyledText = styled(Text)`
@@ -755,10 +767,12 @@ const StyledRadio = styled.div`
 
 
 const StyledButton = styled(Button)`
-  margin-top: 6rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   letter-spacing: 1px;
   color: #F5F5F5;
+  margin: 3rem auto  2rem auto; /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
 `;   
 
 const Select = styled.select`
@@ -774,9 +788,21 @@ const Select = styled.select`
 `;
 
 const AdditionalFields = styled.div`
+  border: 1px solid #001753;
+  border-radius: 12px;
+  background-color: #BFD0FB;
+  padding: 2rem;
+`;
+
+const FormAdditional = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
-    gap: 2rem;
   flex-wrap: wrap;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 2rem;
+`;
+
+const FormButton = styled.div`
 `;
