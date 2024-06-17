@@ -23,7 +23,15 @@ const InserirPoupador = () => {
   const [agencia, setAgencia] = useState("");
   const [conta, setConta] = useState("");
   const [val, setVal] = useState("");
-  const [id_tipo_conta, setId_tipo_conta] = useState("");
+  const [id_tipo_conta, setId_tipo_conta] = useState([
+    { id: 1, nome: 'Conta corrente individual' },
+    { id: 2, nome: 'Conta poupanca individual' },
+    { id: 3, nome: 'Conta depósito judicial individual' },
+    { id: 4, nome: 'Conta corrente conjunta'},
+    { id: 5, nome: 'Conta poupanca conjunta'},
+    { id: 6, nome: 'Conta depósito judicial conjunta'},
+    { id: 7, nome: 'Conta de terceiros'}
+  ]);
   const [tipo_conta, setTipo_conta] = useState("");
   const [val_atualizado, setVal_atualizado] = useState("");
   const [val_indice, setVal_indice] = useState("");
@@ -42,7 +50,19 @@ const InserirPoupador = () => {
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
   const [valorHerdeiro, setValorHerdeiro] = useState('');
   const [porcentagem, setPorcentagem] = useState('');
-  const [showNewFieldsType, setShowNewFieldsType] = useState('');
+  const [selectedTipoConta, setSelectedTipoConta] = useState("");
+  const [showNewFieldsType, setShowNewFieldsType] = useState(false);
+  const [nome_titular, setNome_titular] = useState("");
+  const [cpf_titular, setCpf_titular] = useState("");
+  const [agencia_titular, setAgencia_titular] = useState("");
+  const [conta_titular, setConta_titular] = useState("");
+  const [grau_titularidade_titular, setGrau_titularidade_titular] = useState("");
+  const [nome_terceiro, setNome_terceiro] = useState("");
+  const [cpf_terceiro, setCpf_terceiro] = useState("");
+  const [agencia_terceiro, setAgencia_terceiro] = useState("");
+  const [conta_terceiro, setConta_terceiro] = useState("");
+  const [grau_titularidade_terceiro, setGrau_titularidade_terceiro] = useState("");
+  const [showNewFieldsTerceiros, setShowNewFieldsTerceiros] = useState("");
 
   const handleChange = (e) => {
     setConta(e.target.value);
@@ -91,6 +111,43 @@ const handleSituacaoChange = (value) => {
   setId_situacao(value);
   setShowAdditionalFields(value === "falecido");
 };
+
+const handleSelectTipoContaChange = (e) => {
+  const value = e.target.value;
+  setSelectedTipoConta(value);
+  setShowNewFieldsType(value === "Conta corrente conjunta" || value === "Conta poupanca conjunta" || value === "Conta depósito judicial conjunta");
+  setShowNewFieldsTerceiros(value === "Conta de terceiros")
+};
+
+  // Gerar opções de 1 a 1000
+  const generateOptions = () => {
+    const options = [];
+    for (let i = 1; i <= 1000; i++) {
+      options.push(<option key={i} value={i}>{i}</option>);
+    }
+    return options;
+  };
+
+  // Função para lidar com o envio do formulário de cadastro de titular
+  const handleSubmitTitular = (e) => {
+    e.preventDefault();
+    // Aqui você pode adicionar lógica para enviar os dados do titular
+    // Exemplo: enviar para um servidor, salvar localmente, etc.
+    console.log('Dados do titular enviados:', {
+      nome_titular,
+      cpf_titular,
+      agencia_titular,
+      conta_titular,
+      grau_titularidade_titular
+    });
+
+    // Limpar os campos após o envio
+    setNome_titular('');
+    setCpf_titular('');
+    setAgencia_titular('');
+    setConta_titular('');
+    setGrau_titularidade_titular('');
+  };
 
 const handlePorcentagemChange = (e) => {
   const value = e.target.value;
@@ -383,20 +440,133 @@ useEffect(() => {
             />
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Tipo de Conta</StyledLabel>
-            <Select 
-              id="inputMedium" 
-              value={tipo_conta} 
-              onChange={(e) => setTipo_conta(e.target.value)}
-            >
-            <option value="" disabled>Selecione um tipo de conta</option>
-              {Array.isArray(tipo_conta) && tipo_conta.map(tipo_conta => (
-              <option key={tipo_conta.id} value={tipo_conta.id}>
-                {tipo_conta.nome}
-              </option>
-            ))}
-            </Select>
+      <StyledLabel htmlFor="inputMedium">Tipo de Conta</StyledLabel>
+      <Select 
+        id="inputMedium" 
+        value={selectedTipoConta} 
+        onChange={handleSelectTipoContaChange}
+      >
+        <option value="" disabled>Selecione um tipo de conta</option>
+        {Array.isArray(id_tipo_conta) && id_tipo_conta.map(tipo => (
+          <option key={tipo.nome} value={tipo.nome_titular}>
+            {tipo.nome}
+          </option>
+        ))}
+      </Select>
+    </FormGroup>
+          {showNewFieldsType && (
+        <AdditionalFieldsType>
+          <FormAdditionalType>
+          <FormGroup>
+            <StyledLabel htmlFor="inputShort">Nome do Titular</StyledLabel>
+            <Input
+              type="text"
+              id="inputShort"
+              placeholder="Nome do Titular"
+            />
           </FormGroup>
+          <FormGroup>
+            <StyledLabel htmlFor="inputShort">CPF do Titular</StyledLabel>
+            <Input
+              type="text"
+              id="inputShort"
+              placeholder="CPF do Titular"
+            />
+          </FormGroup>
+          <FormGroup>
+            <StyledLabel htmlFor="inputShort">Agência do Titular
+            </StyledLabel>
+            <Input
+              type="text"
+              id="inputShort"
+              placeholder="Agência do Titular"
+            />
+          </FormGroup>
+          <FormGroup>
+            <StyledLabel htmlFor="inputShort">Conta do Titular</StyledLabel>
+            <Input
+              type="text"
+              id="inputShort"
+              placeholder="Conta do Titular"
+            />
+          </FormGroup>
+          <FormGroup>
+              <StyledLabel htmlFor="additionalSelect">Selecione um número</StyledLabel>
+              <Select 
+                id="additionalSelect"
+                className="custom-select"
+                value={grau_titularidade_titular}
+                onChange={(e) => setGrau_titularidade_titular(e.target.value)}
+                required
+              >
+                <option value="" disabled>Selecione um número</option>
+                {generateOptions()}
+              </Select>
+            </FormGroup>
+            <FormButtonTitular>
+          <Form onSubmit={ handleSubmitTitular}>
+            <StyledButton type="submit">Cadastrar Titular</StyledButton>
+          </Form>
+          </FormButtonTitular>
+          </FormAdditionalType>
+          </AdditionalFieldsType>
+          )}
+          {showNewFieldsTerceiros  && 
+                  <AdditionalFieldsType>
+                  <FormAdditionalType>
+                  <FormGroup>
+                    <StyledLabel htmlFor="inputShort">Nome de Terceiros</StyledLabel>
+                    <Input
+                      type="text"
+                      id="nome_terceiro"
+                      placeholder="Nome do Terceiro"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <StyledLabel htmlFor="inputShort">CPF do Terceiro</StyledLabel>
+                    <Input
+                      type="text"
+                      id="inputShort"
+                      placeholder="CPF do Terceiro"
+                      value={cpf_titular}
+                      onChange={(e) => setCpf(e.target.value)}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <StyledLabel htmlFor="inputShort">Agência do Terceiro</StyledLabel>
+                    <Input
+                      type="text"
+                      id="inputShort"
+                      placeholder="Agência do Terceiro"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <StyledLabel htmlFor="inputShort">Conta do Terceiro</StyledLabel>
+                    <Input
+                      type="text"
+                      id="inputShort"
+                      placeholder="Conta do Terceiro"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+          <StyledLabel htmlFor="inputStatic">Grau de Titularidade do Terceiro</StyledLabel>
+          <Input
+            type="text"
+            id="inputStatic"
+            name="inputGrauTerceiro"
+            placeholder="1"
+            readOnly
+          />
+        </FormGroup>
+                    <FormButtonTitular>
+                  <Form onSubmit={handleSubmit}>
+                    <StyledButton type="submit">Cadastrar Terceiro</StyledButton>
+                  </Form>
+                  </FormButtonTitular>
+                  </FormAdditionalType>
+                  </AdditionalFieldsType>
+          }
           </FormAdditional>
           <FormButton>
           <Form onSubmit={handleSubmit}>
@@ -794,6 +964,13 @@ const AdditionalFields = styled.div`
   padding: 2rem;
 `;
 
+const AdditionalFieldsType = styled.div`
+  border-radius: 12px;
+  background-color: #FEE2B9;
+  border: 1px solid #A36201;
+  padding: 2rem; 
+`;
+
 const FormAdditional = styled.div`
   width: 100%;
   display: flex;
@@ -804,5 +981,18 @@ const FormAdditional = styled.div`
   gap: 2rem;
 `;
 
+const FormAdditionalType = styled.div`  
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 2rem;
+`;
+
 const FormButton = styled.div`
+`;
+
+const FormButtonTitular = styled.div`
 `;

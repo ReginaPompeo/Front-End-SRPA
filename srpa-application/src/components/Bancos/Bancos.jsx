@@ -14,12 +14,13 @@ const InserirBancos = () => {
     setIsSubmitting(true);
     setResponseMessage("");
 
-    fetch("http://localhost:8080/banco/criar", {
+    fetch("http://localhost:8080/banco/criarBanco", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ codigoBanco, nomeBanco }),
+      mode: "no-cors", // Add this line
     })
       .then((response) => {
         setIsSubmitting(false);
