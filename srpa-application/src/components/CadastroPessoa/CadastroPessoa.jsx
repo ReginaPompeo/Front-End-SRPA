@@ -504,7 +504,7 @@ useEffect(() => {
               </Select>
             </FormGroup>
             <FormButtonTitular>
-          <Form onSubmit={ handleSubmitTitular}>
+          <Form onSubmit={handleSubmitTitular}>
             <StyledButton type="submit">Cadastrar Titular</StyledButton>
           </Form>
           </FormButtonTitular>

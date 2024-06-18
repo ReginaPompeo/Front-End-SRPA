@@ -1,44 +1,49 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from 'axios';
 
 const InserirBancos = () => {
   // Estado local para armazenar os valores dos campos
-  const [codigoBanco, setCodigoBanco] = useState("");
+ const [codigoBanco, setCodigoBanco] = useState("");
   const [nomeBanco, setNomeBanco] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
-  // Função para lidar com o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
+    const codigoBancoInt = parseInt(codigoBanco, 10);
+
+    const bancoData = {
+      id: codigoBanco,
+      nome: nomeBanco
+    };
+
     setIsSubmitting(true);
-    setResponseMessage("");
 
     fetch("http://localhost:8080/banco/criarBanco", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json;charset=utf-8",
+        "Accept":"application/json"
       },
-      body: JSON.stringify({ codigoBanco, nomeBanco }),
-      mode: "no-cors", // Add this line
+      body: JSON.stringify(bancoData),
+      mode: "no-cors"
     })
-      .then((response) => {
-        setIsSubmitting(false);
-        if (!response.ok) {
-          throw new Error("Erro ao enviar dados para o servidor");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setResponseMessage("Dados enviados com sucesso!");
-        console.log("Resposta do servidor:", data);
-      })
-      .catch((error) => {
-        setIsSubmitting(false);
-        setResponseMessage("Erro ao enviar dados para o servidor.");
-        console.error("Erro:", error);
-      });
+    .then(response => response.text())
+    .then(result => {
+      setResponseMessage(result); // Exibe a mensagem de resposta do servidor
+      setIsSubmitting(false);
+      // Limpa os campos após o envio bem-sucedido
+      setCodigoBanco("");
+      setNomeBanco("");
+    })
+    .catch(error => {
+      console.error("Erro ao enviar requisição:", error);
+      setResponseMessage("Erro ao enviar requisição.");
+      setIsSubmitting(false);
+    });
   };
+
   return (
     <StyledContainer id="bancos">
       <StyledText>
@@ -77,7 +82,6 @@ const InserirBancos = () => {
       </Form>
     </StyledContainer>
   );
-  
 };
 export default InserirBancos;
 
