@@ -7,13 +7,13 @@ const Header = () => {
     const [bar, setBar] = useState(false);
 
     return (
-        <Container bar={bar}>
+        <Container bar={bar.toString()}>
             <Logo>
                 <span className="Logo">
                     <img src={logoImage} alt="Logo Pegoraro Amorim"/>
                 </span>
             </Logo>
-            <Nav bar={bar}>
+            <Nav bar={bar.toString()}>
                 <span>
                     <NavLink to="/">Home</NavLink>
                 </span>
@@ -115,7 +115,7 @@ const Nav = styled.div`
     font-size: 2rem;
     gap: 2rem;
     font-weight: 700;
-    height: ${(props) => (props.bar ? "100vh" : 0)};
+    height: ${(props) => (props.bar ? "100vh" : "0")}; /* Corrigido para atualizar conforme o estado bar */
     transition: height 400ms ease-in-out;
     overflow: hidden;
     z-index: 100;

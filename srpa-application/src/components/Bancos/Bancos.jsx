@@ -11,39 +11,27 @@ const InserirBancos = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const codigoBancoInt = parseInt(codigoBanco, 10);
 
-    const bancoData = {
-      id: codigoBanco,
-      nome: nomeBanco
-    };
-
-    setIsSubmitting(true);
-
-    fetch("http://localhost:8080/banco/criarBanco", {
+    fetch("http://localhost:8080/banco/criarBanco", { // Altere a URL para apontar para o endpoint correto no backend
       method: "POST",
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        "Accept":"application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(bancoData),
-      mode: "no-cors"
+      body: JSON.stringify({ codigoBanco, nomeBanco }),
+      mode: "no-cors",
     })
-    .then(response => response.text())
-    .then(result => {
-      setResponseMessage(result); // Exibe a mensagem de resposta do servidor
-      setIsSubmitting(false);
-      // Limpa os campos após o envio bem-sucedido
-      setCodigoBanco("");
-      setNomeBanco("");
-    })
-    .catch(error => {
-      console.error("Erro ao enviar requisição:", error);
-      setResponseMessage("Erro ao enviar requisição.");
-      setIsSubmitting(false);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao enviar dados para o servidor");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Resposta do servidor:", data);
+        // Aqui você pode lidar com a resposta do servidor conforme necessário
+      })
+      .catch((error) => console.error("Erro:", error));
   };
-
   return (
     <StyledContainer id="bancos">
       <StyledText>

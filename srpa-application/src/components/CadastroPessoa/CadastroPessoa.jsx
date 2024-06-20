@@ -166,13 +166,6 @@ useEffect(() => {
   setValorHerdeiro(calcularValorHerdeiro());
 }, [val_indice, porcentagem]);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/usuarios")
-      .then(response => response.json())
-      .then(data => setUsuario(data))
-      .catch(error => console.error("Erro ao buscar dados:", error));
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -195,7 +188,94 @@ useEffect(() => {
       })
       .catch((error) => console.error("Erro:", error));
   };
-  
+  // Exemplo de função para cadastrar um titular
+function cadastrarTitular() {
+  // Supondo que showAditoonalFieldType e showAditionalFields são arrays com os nomes dos campos desejados
+  const showAditoonalFieldType = ['campo1', 'campo2', 'campo3']; // Substitua pelos campos reais
+  const showAditionalFields = ['campo4', 'campo5', 'campo6']; // Substitua pelos campos reais
+
+  // Selecionando os elementos do formulário
+  const form = document.getElementById('formularioTitular');
+  const formData = new FormData(form);
+
+  // Criando um objeto para armazenar os dados filtrados
+  let filteredData = {};
+
+  // Adicionando os campos de showAditoonalFieldType ao objeto filteredData
+  showAditoonalFieldType.forEach(field => {
+      if (formData.has(field)) {
+          filteredData[field] = formData.get(field);
+      }
+  });
+
+  // Adicionando os campos de showAditionalFields ao objeto filteredData
+  showAditionalFields.forEach(field => {
+      if (formData.has(field)) {
+          filteredData[field] = formData.get(field);
+      }
+  });
+
+  // Enviando os dados filtrados para o servidor
+  fetch('/endpoint-titular', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(filteredData)
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Sucesso:', data);
+  })
+  .catch((error) => {
+      console.error('Erro:', error);
+  });
+}
+
+// Exemplo de função para cadastrar um terceiro
+function cadastrarTerceiro() {
+  // Supondo que showAditoonalFieldType e showAditionalFields são arrays com os nomes dos campos desejados
+  const showAditoonalFieldType = ['campo7', 'campo8', 'campo9']; // Substitua pelos campos reais
+  const showAditionalFields = ['campo10', 'campo11', 'campo12']; // Substitua pelos campos reais
+
+  // Selecionando os elementos do formulário
+  const form = document.getElementById('formularioTerceiro');
+  const formData = new FormData(form);
+
+  // Criando um objeto para armazenar os dados filtrados
+  let filteredData = {};
+
+  // Adicionando os campos de showAditoonalFieldType ao objeto filteredData
+  showAditoonalFieldType.forEach(field => {
+      if (formData.has(field)) {
+          filteredData[field] = formData.get(field);
+      }
+  });
+
+  // Adicionando os campos de showAditionalFields ao objeto filteredData
+  showAditionalFields.forEach(field => {
+      if (formData.has(field)) {
+          filteredData[field] = formData.get(field);
+      }
+  });
+
+  // Enviando os dados filtrados para o servidor
+  fetch('/endpoint-terceiro', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(filteredData)
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Sucesso:', data);
+  })
+  .catch((error) => {
+      console.error('Erro:', error);
+  });
+}
+
   return (
     <StyledContainer id="cadastro_pessoa">
       <StyledText>
@@ -204,10 +284,10 @@ useEffect(() => {
       <Page>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-            <StyledLabel htmlFor="inputShort">PJ</StyledLabel>
+            <StyledLabel htmlFor="inputPJ">PJ</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputPJ"
               placeholder="PJ"
               value={pj}
               onChange={(e) => setPj(e.target.value)}
@@ -215,10 +295,10 @@ useEffect(() => {
             />
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">CPF</StyledLabel>
+            <StyledLabel htmlFor="inputCpf">CPF</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputCpf"
               placeholder="CPF"
               value={cpf}
               onChange={(e) => setCpf(e.target.value)}
@@ -226,10 +306,10 @@ useEffect(() => {
             />
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">CNJ</StyledLabel>
+            <StyledLabel htmlFor="inputCnj">CNJ</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputCnj"
               placeholder="CNJ"
               value={cnj}
               onChange={(e) => setCnj(e.target.value)}
@@ -237,10 +317,10 @@ useEffect(() => {
             />
           </FormGroup>
           <FormGroupLong>
-          <StyledLabel htmlFor="inputLong">Autor</StyledLabel>
+          <StyledLabel htmlFor="inputAutor">Autor</StyledLabel>
           <InputAutor // Usamos um novo componente chamado LongInput para o campo "Autor"
             type="text"
-            id="inputLong"
+            id="inputAutor"
             placeholder="Autor"
             value={autor}
             onChange={(e) => setAutor(e.target.value)}
@@ -248,9 +328,9 @@ useEffect(() => {
           />
         </FormGroupLong>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Usuário</StyledLabel>
+            <StyledLabel htmlFor="inputUsuario">Usuário</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputUsuario" 
               value={id_usuario} 
               onChange={(e) => setId_usuario(e.target.value)}
             >
@@ -263,9 +343,9 @@ useEffect(() => {
             </Select>
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Banco</StyledLabel>
+            <StyledLabel htmlFor="inputBanco">Banco</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputBanco" 
               value={id_banco} 
               onChange={(e) => setId_banco(e.target.value)}
             >
@@ -278,9 +358,9 @@ useEffect(() => {
             </Select>
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Parceiro</StyledLabel>
+            <StyledLabel htmlFor="inputParceiro">Parceiro</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputParceiro" 
               value={id_parceiro} 
               onChange={(e) => setId_parceiro(e.target.value)}
             >
@@ -293,14 +373,14 @@ useEffect(() => {
             </Select>
           </FormGroup>
           <FormGroupRadio>
-            <StyledLabel htmlFor="inputShort">Habilitação de Herdeiros</StyledLabel>
+            <StyledLabel htmlFor="inputHabHerd1">Habilitação de Herdeiros</StyledLabel>
               <StyledRadio>
                 <div className="form-check">
                   <input
                     className="form-check-input"
                     type="radio"
                     name="habilitacao"
-                    id="habilitacao1"
+                    id="inputHabHerd1"
                     value="1"
                     checked={hab_herdeiro === "1"}
                     onChange={() => setHab_herdeiro("1")}
@@ -314,7 +394,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="habilitacao"
-                    id="habilitacao2"
+                    id="inputHabHerd2"
                     value="2"
                     checked={hab_herdeiro === "2"}
                     onChange={() => setHab_herdeiro("2")}
@@ -326,14 +406,14 @@ useEffect(() => {
               </StyledRadio>
           </FormGroupRadio>
           <FormGroupRadio>
-        <StyledLabel htmlFor="inputShort">Situação</StyledLabel>
+        <StyledLabel htmlFor="inputSitu1">Situação</StyledLabel>
         <StyledRadio>
           <div className="form-check">
             <input
               className="form-check-input"
               type="radio"
               name="situacao"
-              id="situacao1"
+              id="inputSitu1"
               value="vivo"
               checked={id_situacao === "vivo"}
               onChange={() => handleSituacaoChange("vivo")}
@@ -347,7 +427,7 @@ useEffect(() => {
               className="form-check-input"
               type="radio"
               name="situacao"
-              id="situacao2"
+              id="inputSitu2"
               value="falecido"
               checked={id_situacao === "falecido"}
               onChange={() => handleSituacaoChange("falecido")}
@@ -364,17 +444,17 @@ useEffect(() => {
         <AdditionalFields>
           <FormAdditional>
           <FormGroup>
-            <StyledLabel htmlFor="nomeHerdeiro">Nome do Herdeiro</StyledLabel>
+            <StyledLabel htmlFor="inputNomeHerd">Nome do Herdeiro</StyledLabel>
             <Input
               type="text"
-              id="nomeHerdeiro"
+              id="inputNomeHerd"
               placeholder="Nome do Herdeiro"
             />
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Banco</StyledLabel>
+            <StyledLabel htmlFor="inputBancoHerd">Banco</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputBancoHerd" 
               value={id_banco} 
               onChange={(e) => setId_banco(e.target.value)}
             >
@@ -387,9 +467,9 @@ useEffect(() => {
             </Select>
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="inputShort">Parentesco</StyledLabel>
+            <StyledLabel htmlFor="inputParentesco">Parentesco</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputParentesco" 
               value={parentesco} 
               onChange={(e) => setParentesco(e.target.value)}
             >
@@ -402,10 +482,10 @@ useEffect(() => {
             </Select>
           </FormGroup>
           <FormGroup>
-        <StyledLabel htmlFor="porcentagem">Porcentagem</StyledLabel>
+        <StyledLabel htmlFor="inputPorcent">Porcentagem</StyledLabel>
         <Input
           type="text"
-          id="porcentagem"
+          id="inputPorcent"
           placeholder="%"
           value={porcentagem}
           onChange={handlePorcentagemChange}
@@ -413,10 +493,10 @@ useEffect(() => {
       </FormGroup>
 
       <FormGroup>
-        <StyledLabel htmlFor="inputStatic">Valor %</StyledLabel>
+        <StyledLabel htmlFor="inputStaticPorcent">Valor %</StyledLabel>
         <Input
           type="text"
-          id="inputStatic"
+          id="inputStaticPorcent"
           name="inputValorHerdeiro"
           placeholder="0,00"
           value={valorHerdeiro.toFixed(2)}
@@ -424,25 +504,25 @@ useEffect(() => {
         />
       </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="agencia">Agência</StyledLabel>
+            <StyledLabel htmlFor="inputAgenciaHerd">Agência</StyledLabel>
             <Input
               type="text"
-              id="agencia"
+              id="inputAgenciaHerd"
               placeholder="Agência"
             />
           </FormGroup>
           <FormGroup>
-            <StyledLabel htmlFor="conta">Conta</StyledLabel>
+            <StyledLabel htmlFor="inputAgenciaHerd">Conta</StyledLabel>
             <Input
               type="text"
-              id="conta"
+              id="inputContaHerd"
               placeholder="Conta"
             />
           </FormGroup>
           <FormGroup>
       <StyledLabel htmlFor="inputMedium">Tipo de Conta</StyledLabel>
       <Select 
-        id="inputMedium" 
+        id="inputTipoContaHerd" 
         value={selectedTipoConta} 
         onChange={handleSelectTipoContaChange}
       >
@@ -461,7 +541,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Nome do Titular</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputNomeTitular"
               placeholder="Nome do Titular"
             />
           </FormGroup>
@@ -469,7 +549,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">CPF do Titular</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputCpfTitular"
               placeholder="CPF do Titular"
             />
           </FormGroup>
@@ -478,7 +558,7 @@ useEffect(() => {
             </StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputAgenciaTitular"
               placeholder="Agência do Titular"
             />
           </FormGroup>
@@ -486,20 +566,20 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Conta do Titular</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputContaTitular"
               placeholder="Conta do Titular"
             />
           </FormGroup>
           <FormGroup>
-              <StyledLabel htmlFor="additionalSelect">Selecione um número</StyledLabel>
+              <StyledLabel htmlFor="inputShort">Grau de Titularidade</StyledLabel>
               <Select 
-                id="additionalSelect"
+                id="inputGrauTitul"
                 className="custom-select"
                 value={grau_titularidade_titular}
                 onChange={(e) => setGrau_titularidade_titular(e.target.value)}
                 required
               >
-                <option value="" disabled>Selecione um número</option>
+                <option value="" disabled>Selecione o grau de titularidade</option>
                 {generateOptions()}
               </Select>
             </FormGroup>
@@ -518,7 +598,7 @@ useEffect(() => {
                     <StyledLabel htmlFor="inputShort">Nome de Terceiros</StyledLabel>
                     <Input
                       type="text"
-                      id="nome_terceiro"
+                      id="inputNomeTerc"
                       placeholder="Nome do Terceiro"
                     />
                   </FormGroup>
@@ -526,7 +606,7 @@ useEffect(() => {
                     <StyledLabel htmlFor="inputShort">CPF do Terceiro</StyledLabel>
                     <Input
                       type="text"
-                      id="inputShort"
+                      id="inputCpfTerc"
                       placeholder="CPF do Terceiro"
                       value={cpf_titular}
                       onChange={(e) => setCpf(e.target.value)}
@@ -537,7 +617,7 @@ useEffect(() => {
                     <StyledLabel htmlFor="inputShort">Agência do Terceiro</StyledLabel>
                     <Input
                       type="text"
-                      id="inputShort"
+                      id="inputAgenciaTerc"
                       placeholder="Agência do Terceiro"
                     />
                   </FormGroup>
@@ -545,7 +625,7 @@ useEffect(() => {
                     <StyledLabel htmlFor="inputShort">Conta do Terceiro</StyledLabel>
                     <Input
                       type="text"
-                      id="inputShort"
+                      id="inputContaTerc"
                       placeholder="Conta do Terceiro"
                     />
                   </FormGroup>
@@ -553,7 +633,7 @@ useEffect(() => {
           <StyledLabel htmlFor="inputStatic">Grau de Titularidade do Terceiro</StyledLabel>
           <Input
             type="text"
-            id="inputStatic"
+            id="inputStaticGrauTitul"
             name="inputGrauTerceiro"
             placeholder="1"
             readOnly
@@ -576,10 +656,10 @@ useEffect(() => {
         </AdditionalFields>
       )}
           <FormGroupLong>
-          <StyledLabel htmlFor="inputShort">Observação</StyledLabel>
+          <StyledLabel htmlFor="inputLong">Observação</StyledLabel>
           <LongInput // Usamos um novo componente chamado LongInput para o campo "Observação"
             type="text"
-            id="inputLong"
+            id="inputOberv"
             placeholder="Observação"
             value={obs}
             onChange={(e) => setObs(e.target.value)}
@@ -590,7 +670,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Agência</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputAgencia"
               placeholder="Agência"
               value={agencia}
               onChange={(e) => setAgencia(e.target.value)}
@@ -601,7 +681,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Conta</StyledLabel>
             <Input
               type="text"
-              id="inputShort"
+              id="inputConta"
               placeholder="Conta"
               value={conta}
               onChange={(e) => setConta(e.target.value)}
@@ -612,7 +692,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Valor</StyledLabel>
               <Input
                 type="text"
-                id="inputShort"
+                id="inputValor"
                 name="inputVal"
                 placeholder="0,00"
                 value={val}
@@ -623,7 +703,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Valor Índice</StyledLabel>
               <Input
                 type="text"
-                id="inputShort"
+                id="inputValIndice"
                 name="inputVal_indice"
                 placeholder="0,00"
                 value={val_indice}
@@ -634,7 +714,7 @@ useEffect(() => {
             <StyledLabel htmlFor="inputShort">Honorários Contratuais</StyledLabel>
               <Input
                 type="text"
-                id="inputShort"
+                id="inputHon"
                 name="inputHonor_cont"
                 placeholder="0,00"
                 value={honor_cont}
@@ -645,7 +725,7 @@ useEffect(() => {
           <StyledLabel htmlFor="inputStatic">Valor Atualizado</StyledLabel>
           <Input
             type="text"
-            id="inputStatic"
+            id="inputStaticValAtlz"
             name="inputValorDescontado"
             placeholder="0,00"
             value={valorDescontado}
@@ -655,7 +735,7 @@ useEffect(() => {
         <FormGroup>
             <StyledLabel htmlFor="inputShort">Tipo de Conta</StyledLabel>
             <Select 
-              id="inputMedium" 
+              id="inputTipoConta" 
               value={id_tipo_conta} 
               onChange={(e) => setId_tipo_conta(e.target.value)}
             >
@@ -671,7 +751,7 @@ useEffect(() => {
           <StyledLabel htmlFor="inputShort">Data e Hora de Entrada</StyledLabel>
             <Input
                 type="text"
-                id="inputMedium"
+                id="inputData"
                 name="inputCurrentDateTime"
                 placeholder="DD/MM/AAAA HH:MM:SS"
                 value={currentDateTime}
@@ -682,7 +762,7 @@ useEffect(() => {
         <StyledLabel htmlFor="inputShort">Data PASA</StyledLabel>
             <Input
                 type="date"
-                id="inputMedium"
+                id="inputDtPasa"
                 name="inputSelectDate"
                 value={selectedDate}
                 onChange={handleDateChange}
@@ -696,7 +776,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="monetaria"
-                    id="monetaria"
+                    id="inputMonetaria1"
                     value="1"
                     checked={monetaria === "1"}
                     onChange={() => setMonetaria("1")}
@@ -710,7 +790,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="monetaria"
-                    id="monetaria2"
+                    id="inputMonetaria2"
                     value="2"
                     checked={monetaria === "2"}
                     onChange={() => setMonetaria("2")}
@@ -729,7 +809,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="cust_cart"
-                    id="cust_cart"
+                    id="inputCustCartor1"
                     value="1"
                     checked={cust_cart === "1"}
                     onChange={() => setCust_cart("1")}
@@ -743,7 +823,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="cust_cart"
-                    id="cust_cart2"
+                    id="inputCustCartor2"
                     value="2"
                     checked={cust_cart === "2"}
                     onChange={() => setCust_cart("2")}
@@ -762,7 +842,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="prestacao"
-                    id="prestacao"
+                    id="inputPrestacao1"
                     value="1"
                     checked={prestacao === "1"}
                     onChange={() => setPrestacao("1")}
@@ -776,7 +856,7 @@ useEffect(() => {
                     className="form-check-input"
                     type="radio"
                     name="prestacao"
-                    id="prestacao2"
+                    id="inputPrestacao2"
                     value="2"
                     checked={prestacao === "2"}
                     onChange={() => setPrestacao("2")}
