@@ -63,6 +63,7 @@ const InserirPoupador = () => {
   const [conta_terceiro, setConta_terceiro] = useState("");
   const [grau_titularidade_terceiro, setGrau_titularidade_terceiro] = useState("");
   const [showNewFieldsTerceiros, setShowNewFieldsTerceiros] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
 
   const handleChange = (e) => {
     setConta(e.target.value);
@@ -119,6 +120,25 @@ const handleSelectTipoContaChange = (e) => {
   setShowNewFieldsTerceiros(value === "Conta de terceiros")
 };
 
+const handleSubmit = (e) => {
+    e.preventDefault();};
+
+
+  // Função para lidar com o envio do formulário de cadastro de titular
+  const handleSubmitTitular = (e) => {
+    e.preventDefault();
+    console.log('Dados do titular enviados:', {
+      nome_titular,
+      cpf_titular,
+      agencia_titular,
+      conta_titular,
+      grau_titularidade_titular
+    });
+
+    // Exibir mensagem de sucesso
+    setResponseMessage('Titular cadastrado com sucesso!');
+  };
+
   // Gerar opções de 1 a 1000
   const generateOptions = () => {
     const options = [];
@@ -128,26 +148,6 @@ const handleSelectTipoContaChange = (e) => {
     return options;
   };
 
-  // Função para lidar com o envio do formulário de cadastro de titular
-  const handleSubmitTitular = (e) => {
-    e.preventDefault();
-    // Aqui você pode adicionar lógica para enviar os dados do titular
-    // Exemplo: enviar para um servidor, salvar localmente, etc.
-    console.log('Dados do titular enviados:', {
-      nome_titular,
-      cpf_titular,
-      agencia_titular,
-      conta_titular,
-      grau_titularidade_titular
-    });
-
-    // Limpar os campos após o envio
-    setNome_titular('');
-    setCpf_titular('');
-    setAgencia_titular('');
-    setConta_titular('');
-    setGrau_titularidade_titular('');
-  };
 
 const handlePorcentagemChange = (e) => {
   const value = e.target.value;
@@ -165,116 +165,6 @@ const calcularValorHerdeiro = () => {
 useEffect(() => {
   setValorHerdeiro(calcularValorHerdeiro());
 }, [val_indice, porcentagem]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    fetch("http://localhost:8080/banco/criar", { // Altere a URL para apontar para o endpoint correto no backend
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id_usuario }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao enviar dados para o servidor");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Resposta do servidor:", data);
-        // Aqui você pode lidar com a resposta do servidor conforme necessário
-      })
-      .catch((error) => console.error("Erro:", error));
-  };
-  // Exemplo de função para cadastrar um titular
-function cadastrarTitular() {
-  // Supondo que showAditoonalFieldType e showAditionalFields são arrays com os nomes dos campos desejados
-  const showAditoonalFieldType = ['campo1', 'campo2', 'campo3']; // Substitua pelos campos reais
-  const showAditionalFields = ['campo4', 'campo5', 'campo6']; // Substitua pelos campos reais
-
-  // Selecionando os elementos do formulário
-  const form = document.getElementById('formularioTitular');
-  const formData = new FormData(form);
-
-  // Criando um objeto para armazenar os dados filtrados
-  let filteredData = {};
-
-  // Adicionando os campos de showAditoonalFieldType ao objeto filteredData
-  showAditoonalFieldType.forEach(field => {
-      if (formData.has(field)) {
-          filteredData[field] = formData.get(field);
-      }
-  });
-
-  // Adicionando os campos de showAditionalFields ao objeto filteredData
-  showAditionalFields.forEach(field => {
-      if (formData.has(field)) {
-          filteredData[field] = formData.get(field);
-      }
-  });
-
-  // Enviando os dados filtrados para o servidor
-  fetch('/endpoint-titular', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(filteredData)
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log('Sucesso:', data);
-  })
-  .catch((error) => {
-      console.error('Erro:', error);
-  });
-}
-
-// Exemplo de função para cadastrar um terceiro
-function cadastrarTerceiro() {
-  // Supondo que showAditoonalFieldType e showAditionalFields são arrays com os nomes dos campos desejados
-  const showAditoonalFieldType = ['campo7', 'campo8', 'campo9']; // Substitua pelos campos reais
-  const showAditionalFields = ['campo10', 'campo11', 'campo12']; // Substitua pelos campos reais
-
-  // Selecionando os elementos do formulário
-  const form = document.getElementById('formularioTerceiro');
-  const formData = new FormData(form);
-
-  // Criando um objeto para armazenar os dados filtrados
-  let filteredData = {};
-
-  // Adicionando os campos de showAditoonalFieldType ao objeto filteredData
-  showAditoonalFieldType.forEach(field => {
-      if (formData.has(field)) {
-          filteredData[field] = formData.get(field);
-      }
-  });
-
-  // Adicionando os campos de showAditionalFields ao objeto filteredData
-  showAditionalFields.forEach(field => {
-      if (formData.has(field)) {
-          filteredData[field] = formData.get(field);
-      }
-  });
-
-  // Enviando os dados filtrados para o servidor
-  fetch('/endpoint-terceiro', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(filteredData)
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log('Sucesso:', data);
-  })
-  .catch((error) => {
-      console.error('Erro:', error);
-  });
-}
 
   return (
     <StyledContainer id="cadastro_pessoa">
@@ -534,63 +424,75 @@ function cadastrarTerceiro() {
         ))}
       </Select>
     </FormGroup>
-          {showNewFieldsType && (
+    {showNewFieldsType && (
         <AdditionalFieldsType>
-          <FormAdditionalType>
-          <FormGroup>
-            <StyledLabel htmlFor="inputShort">Nome do Titular</StyledLabel>
-            <Input
-              type="text"
-              id="inputNomeTitular"
-              placeholder="Nome do Titular"
-            />
-          </FormGroup>
-          <FormGroup>
-            <StyledLabel htmlFor="inputShort">CPF do Titular</StyledLabel>
-            <Input
-              type="text"
-              id="inputCpfTitular"
-              placeholder="CPF do Titular"
-            />
-          </FormGroup>
-          <FormGroup>
-            <StyledLabel htmlFor="inputShort">Agência do Titular
-            </StyledLabel>
-            <Input
-              type="text"
-              id="inputAgenciaTitular"
-              placeholder="Agência do Titular"
-            />
-          </FormGroup>
-          <FormGroup>
-            <StyledLabel htmlFor="inputShort">Conta do Titular</StyledLabel>
-            <Input
-              type="text"
-              id="inputContaTitular"
-              placeholder="Conta do Titular"
-            />
-          </FormGroup>
-          <FormGroup>
-              <StyledLabel htmlFor="inputShort">Grau de Titularidade</StyledLabel>
-              <Select 
-                id="inputGrauTitul"
-                className="custom-select"
-                value={grau_titularidade_titular}
-                onChange={(e) => setGrau_titularidade_titular(e.target.value)}
-                required
-              >
-                <option value="" disabled>Selecione o grau de titularidade</option>
-                {generateOptions()}
-              </Select>
-            </FormGroup>
-            <FormButtonTitular>
           <Form onSubmit={handleSubmitTitular}>
-            <StyledButton type="submit">Cadastrar Titular</StyledButton>
+            <FormAdditionalType>
+              <FormGroup>
+                <StyledLabel htmlFor="inputNomeTitular">Nome do Titular</StyledLabel>
+                <Input
+                  type="text"
+                  id="inputNomeTitular"
+                  placeholder="Nome do Titular"
+                  value={nome_titular}
+                  onChange={(e) => setNome_titular(e.target.value)}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <StyledLabel htmlFor="inputCpfTitular">CPF do Titular</StyledLabel>
+                <Input
+                  type="text"
+                  id="inputCpfTitular"
+                  placeholder="CPF do Titular"
+                  value={cpf_titular}
+                  onChange={(e) => setCpf_titular(e.target.value)}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <StyledLabel htmlFor="inputAgenciaTitular">Agência do Titular</StyledLabel>
+                <Input
+                  type="text"
+                  id="inputAgenciaTitular"
+                  placeholder="Agência do Titular"
+                  value={agencia_titular}
+                  onChange={(e) => setAgencia_titular(e.target.value)}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <StyledLabel htmlFor="inputContaTitular">Conta do Titular</StyledLabel>
+                <Input
+                  type="text"
+                  id="inputContaTitular"
+                  placeholder="Conta do Titular"
+                  value={conta_titular}
+                  onChange={(e) => setConta_titular(e.target.value)}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <StyledLabel htmlFor="inputGrauTitul">Grau de Titularidade</StyledLabel>
+                <Select
+                  id="inputGrauTitul"
+                  value={grau_titularidade_titular}
+                  onChange={(e) => setGrau_titularidade_titular(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione o grau de titularidade
+                  </option>
+                  {generateOptions()}
+                </Select>
+              </FormGroup>
+            </FormAdditionalType>
+            <FormButtonTitular>
+              <StyledButton type="submit">Cadastrar Titular</StyledButton>
+            </FormButtonTitular>
           </Form>
-          </FormButtonTitular>
-          </FormAdditionalType>
-          </AdditionalFieldsType>
-          )}
+        </AdditionalFieldsType>
+      )}
           {showNewFieldsTerceiros  && 
                   <AdditionalFieldsType>
                   <FormAdditionalType>

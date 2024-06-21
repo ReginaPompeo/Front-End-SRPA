@@ -122,7 +122,7 @@ const Nav = styled.div`
   }
   span {
     margin-left: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-family: "Lora", serif;
     font-optical-sizing: auto;
     font-style: normal;

@@ -77,7 +77,8 @@ const CasosFinalizados = () => {
           />
         </SearchGroup>
       </SearchContainer>
-        <StyledTextTitle>
+      <BorderContainer>
+      <StyledTextTitle>
           <h3>Nome</h3>
           <h3>CPF</h3>
           <h3>Data</h3>
@@ -106,6 +107,7 @@ const CasosFinalizados = () => {
           activeClassName={"active"}
         />
       </PaginationContainer>
+      </BorderContainer>
     </StyledContainer>
   );
 };
@@ -121,7 +123,11 @@ const Container = styled.div`
   padding-top: 5rem;
   padding-bottom: 10rem;
 `;
-
+const BorderContainer = styled.div`
+  border: 1px solid #000000;
+  padding: 2rem;
+  border-radius: 10px;
+`;
 const Text = styled.div`
   text-align: left;
   margin-bottom: 2rem;
@@ -153,10 +159,9 @@ const FieldsRow = styled.div`
   display: flex;
   justify-content: space-between;
   text-align: left;
-  border: 1px solid #000000;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 8px;
   cursor: pointer;
+
 `;
 
 const FieldsName = styled.div`
@@ -189,7 +194,7 @@ const StyledTextTitle = styled(Text)`
   h3 {
     flex: 1;
     padding-left: 0.5rem;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-family: "Lora", serif;
     font-optical-sizing: auto;
     font-style: bold;
@@ -198,12 +203,19 @@ const StyledTextTitle = styled(Text)`
   }
 `;
 
-const StyledFields = styled(Fields)``;
+const StyledFields = styled(Fields)`
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #000000;
+`;
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 2rem;
+  margin-top: 5rem;
   .pagination {
     display: flex;
     list-style: none;

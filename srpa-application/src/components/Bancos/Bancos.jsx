@@ -1,37 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
 const InserirBancos = () => {
   // Estado local para armazenar os valores dos campos
- const [codigoBanco, setCodigoBanco] = useState("");
+  const [codigoBanco, setCodigoBanco] = useState("");
   const [nomeBanco, setNomeBanco] = useState("");
+  const [bancos, setBancos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    fetch("http://localhost:8080/banco/criarBanco", { // Altere a URL para apontar para o endpoint correto no backend
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ codigoBanco, nomeBanco }),
-      mode: "no-cors",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao enviar dados para o servidor");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Resposta do servidor:", data);
-        // Aqui você pode lidar com a resposta do servidor conforme necessário
-      })
-      .catch((error) => console.error("Erro:", error));
+   // Função para buscar os bancos da API
+   const fetchBancos = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/banco/listarBancos");
+      console.log("Dados recebidos:", response.data);
+      setBancos(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Erro ao buscar bancos:", error);
+      setLoading(false);
+    }
   };
+
+  // Hook useEffect para buscar os bancos quando o componente montar
+  useEffect(() => {
+    fetchBancos();
+  }, []); // O segundo parâmetro vazio [] garante que useEffect seja executado apenas uma vez
+
+  // Função para lidar com o envio do formulário
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post("http://localhost:8080/banco/criarBanco", {
+        codigoBanco,
+        nomeBanco,
+      });
+      console.log("Resposta do servidor:", response.data);
+      setResponseMessage("Banco inserido com sucesso!");
+
+      // Após inserir o banco com sucesso, buscar novamente a lista atualizada
+      fetchBancos();
+    } catch (error) {
+      console.error("Erro ao inserir banco:", error);
+      setResponseMessage("Erro ao inserir banco. Verifique o console para mais detalhes.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <StyledContainer id="bancos">
       <StyledText>
@@ -68,6 +89,29 @@ const InserirBancos = () => {
         </StyledButton>
         {responseMessage && <ResponseMessage>{responseMessage}</ResponseMessage>}
       </Form>
+      <ListBank>
+        <TitleList>
+          <h2>Lista de Bancos</h2>
+        </TitleList>
+        <Board>
+          <StyledTextTitle>
+            <h3>Código do Banco</h3>
+            <h3>Nome do Banco</h3>
+          </StyledTextTitle>
+          <StyledFields>
+            {loading ? (
+              <p>Carregando...</p>
+            ) : (
+              bancos.map((banco) => (
+                <FieldsRow key={banco.id}>
+                  <FieldsCPF>{banco.id}</FieldsCPF>
+                  <FieldsName>{banco.nome}</FieldsName>
+                </FieldsRow>
+              ))
+            )}
+          </StyledFields>
+        </Board>
+      </ListBank>
     </StyledContainer>
   );
 };
@@ -176,4 +220,75 @@ const StyledButton = styled(Button)`
   color: #F5F5F5;
 `;   
 const ResponseMessage = styled.p`
-  margin-top: 1rem`;
+  margin-top: 1rem
+`;
+
+const ListBank = styled.div`
+  flex-direction: column;
+  margin-top: 10rem;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    width: auto;
+  }
+`;
+
+const TitleList = styled.div`
+  margin-bottom: 2rem;
+  h2 {
+    font-size: 2rem;
+    font-family: "Lora", serif;
+    letter-spacing: 1px;
+    color: #001753;
+  }
+`;
+
+const Board = styled.div`
+  border: 1px solid #000000;
+  padding: 2rem;
+  border-radius: 10px;
+`;
+
+const StyledTextTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  margin-bottom: 1rem;
+  h3 {
+    flex: 1;
+    padding-left: 0.5rem;
+    font-size: 1.5rem;
+    font-family: "Lora", serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #001753;
+  }
+`;
+
+const StyledFields = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const FieldsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: 8px;
+  cursor: pointer;
+`;
+
+const FieldsName = styled.div`
+  flex: 1;
+  padding: 0 10px;
+`;
+
+const FieldsCPF = styled.div`
+  flex: 1;
+  padding: 0 10px;
+`;
